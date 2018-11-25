@@ -39,7 +39,7 @@ API endpoints are documented with godoc.
 yFuzz is currently accessible through the use of the [yFuzz CLI](../../cmd/yfuzz-cli).
 
 ## Build 
-To build the server, you will need [Go](https://golang.org/), [Glide](https://glide.sh/), and [Make](https://www.gnu.org/software/make/).
+To build the server, you will need [Go](https://golang.org/), [Dep](https://golang.github.io/dep/), and [Make](https://www.gnu.org/software/make/).
 
 There are two ways to build the yFuzz server: on your system, and as a docker image.
 

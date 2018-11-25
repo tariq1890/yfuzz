@@ -9,6 +9,7 @@
 
 TARGET ?= $(shell basename `pwd`)
 YFUZZ_BUILD_VERSION ?= $(shell git describe --tags --abbrev=0)_local
+HAS_DEP := $(shell command -v dep;)
 
 # Run go build or go install with the appropriate flags
 define _build
@@ -16,7 +17,7 @@ define _build
 													-X github.com/yahoo/yfuzz/pkg/version.Timestamp=$(shell date +'%Y/%m/%d_%H:%M:%S')"
 endef
 
-all: deps lint test build
+all: deps dep-check lint test build
 
 clean:
 	@echo Cleaning binaries, vendor for ${TARGET}.
@@ -26,14 +27,21 @@ clean:
 
 deps:
 	@echo Installing dependencies for ${TARGET}.
+ifndef HAS_DEP
+	curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+endif
 ifeq (${verbose},true)
-	glide install
+	dep ensure -v
 else
-	glide -q install
+	dep ensure
 endif
 ifndef TRAVIS
 	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 endif
+
+dep-check:
+	@echo Running dep check to verify consistency across Gopkg.toml, Gopkg.lock, and vendor.
+	dep check
 
 lint:
 ifdef TRAVIS
@@ -59,4 +67,4 @@ install:
 	@echo Installing ${TARGET} ${YFUZZ_BUILD_VERSION}
 	$(call _build,install)
 
-.PHONY: clean deps lint test build install
+.PHONY: clean deps dep-check lint test build install

@@ -16,7 +16,7 @@ A simple command-line utility for [yFuzz](https://github.com/yahoo/yfuzz).
   - [Settings](#settings)
 
 ## Prerequisites: 
-To build the CLI, you will need [Go](https://golang.org/), [Glide](https://glide.sh/), and [Make](https://www.gnu.org/software/make/).
+To build the CLI, you will need [Go](https://golang.org/), [Dep](https://golang.github.io/dep/), and [Make](https://www.gnu.org/software/make/).
 
 ## Install
 
